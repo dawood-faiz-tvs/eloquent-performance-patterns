@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $users = User::query()
+        ->with('company')
+        ->orderBy('name')
+        ->simplePaginate();
+
+    return view('users', ['users' => $users]);
 });
